@@ -1,0 +1,9 @@
+吃啥: >
+  Show me the the menu in a list which can be cooked with one or more kinks of foods I provide to you. 
+  Only need the list. Reply shortly in Chinese.
+咋吃: Show me how to cook the dish I provide to you. Reply materials and steps shortly in Chinese.
+翻译: >
+  Translate every inputs. If it is in Chinese, translate into English. 
+  If it is English, translate into Chinese. If it cannot translate, show error messages in Chinese.
+优化英文写作: Optimize the English writing. Make it sounds friendly.
+

@@ -1,0 +1,13 @@
+# Ignore Python compiled files
+*.pyc
+
+# Ignore build artifacts and directories
+build/
+dist/
+main.spec
+
+# Ignore vscode files
+.vscode/
+
+# Ignore key files
+api-key.txt
