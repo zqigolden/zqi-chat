@@ -43,7 +43,7 @@ class Translator(QMainWindow):
 
         # Add font size menu with actions to adjust labels
         font_size_menu = menu_bar.addMenu('Font Size')
-        font_sizes = [('Small', 12), ('Medium', 20), ('Large', 28)]
+        font_sizes = [('Tiny', 10), ('Small', 14), ('Medium', 18), ('Large', 24), ('Huge', 32)]
         self.font_sizes = {k: v for (k, v) in font_sizes}
         for name, size in font_sizes:
             action = QAction(name, self)
@@ -64,6 +64,23 @@ class Translator(QMainWindow):
         self.output_label.setMinimumHeight(100)
         self.output_label.setMinimumWidth(800)
 
+        # Clean format of input
+        self.input_text_count = 0
+
+        def _clean_input():
+            # Save the current cursor position
+
+            target_text = self.input_text.toPlainText().strip()
+            if len(target_text) != self.input_text_count:
+                cursor_position = self.input_text.textCursor().position()
+                self.input_text_count = len(target_text)
+                self.input_text.setText(target_text)
+                new_cursor = self.input_text.textCursor()
+                new_cursor.setPosition(cursor_position)
+                self.input_text.setTextCursor(new_cursor)
+
+        self.input_text.textChanged.connect(_clean_input)
+
         # Add input text area and output label to the layout
         central_widget = self.centralWidget() or QWidget()
         layout = QVBoxLayout()
@@ -80,7 +97,6 @@ class Translator(QMainWindow):
             button = QPushButton(button_name, self)
             buttons_layout.addWidget(button)
             button.clicked.connect(partial(self.trigger_prompt, button_name))
-            button.setFont(QFont('Microsoft YaHei', 12))
         layout.addWidget(buttons_widget)
 
         # Set the central widget
@@ -89,6 +105,9 @@ class Translator(QMainWindow):
     def set_font_size(self, size):
         # Adjust font size of input and output labels based on selected size
         font = QFont('Microsoft YaHei', size)
+        gui_font = QFont('Microsoft YaHei', size - 4)
+        for widget in self.findChildren(QWidget):
+            widget.setFont(gui_font)
         self.input_text.setFont(font)
         self.output_label.setFont(font)
 
@@ -128,6 +147,6 @@ def ask_gpt(prompt, message):
 if __name__ == '__main__':
     app = QApplication.instance() or QApplication([])
     translator = Translator()
-    translator.set_font_size(translator.font_sizes['Medium'])
+    translator.set_font_size(translator.font_sizes['Small'])
     translator.show()
     app.exec_()
